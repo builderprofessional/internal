@@ -296,7 +296,8 @@ module.exports = function(grunt) {
       files: [appDir+'/**/*.js', '!'+vendorDir+'/**'],
       options: {
         sub: true,
-        laxcomma: true
+        laxcomma: true,
+        loopfunc: true
       }
     },
     less: {

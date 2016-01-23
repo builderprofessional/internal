@@ -1,0 +1,3 @@
+intmarketing:
+    resource: "@InternalMarketingBundle/Controller"
+    type:     annotation
