@@ -16,3 +16,4 @@
 phinx_engine*
 phinx_app*
 .idea
+default_reversed_schema.xml
