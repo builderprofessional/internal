@@ -13,3 +13,6 @@
 /bower_components/
 /node_modules/
 /dist/
+phinx_engine*
+phinx_app*
+.idea
