@@ -8,7 +8,7 @@ module.exports = function(grunt) {
   var appDir = 'web/app';
   var vendorDir = appDir + '/vendor';
   var tmpDir = appDir + '/tmp';
-  var appName = 'training';
+  var appName = 'internal';
 
   //matchers
   var matchers = {
