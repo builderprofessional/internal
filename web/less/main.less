@@ -2,10 +2,16 @@
 @import "vendors/bootstrap/bootstrap";
 @import "vendors/fontawesome/font-awesome";
 
+
 /* variables */
 @import "variables";
+@import "bootstrap-default-overrides";
+@import "bootstrap-additions";
 
 /* our less files */
+@import "components/components";
+@import "header";
+@import "views/views";
 @import "marketing";
 
 /* Global Styles */
@@ -13,8 +19,17 @@
   display: none;
 }
 
+@font-face {
+  font-family: Grotesque;
+  src: url('../fonts/BrandonGrotesque-Regular.otf') format('opentype');
+}
+
+#content {
+  margin-top: 20px;
+}
+
 body {
-  padding-top: 75px;
+  padding-top: 80px;
   background-color: @background-color;
   color:@color-primary;
 }
@@ -49,10 +64,16 @@ h6,.h6 {
 a a:link, a:hover, a:visited, a:active {
   color:@accent-color;
 }
-
+.aside-backdrop {
+  opacity:.75;
+}
+#content {
+  margin-top:0px;
+}
 .view-header {
   font-weight:bold;
   position:relative;
+  margin-top:0px;
   span {
     display:inline-block;
     background-color:@background-color;
@@ -95,4 +116,37 @@ a {
 
 th {
   font-weight: normal;
+}
+
+/*
+.navbar.primary-nav .navbar-brand img {
+  position: absolute;
+  height: 60px;
+  left: 81px;
+  top: 4px;
+}
+.navbar.primary-nav .navbar-brand {
+  padding: 5px;
+  margin-bottom: -15px;
+  background-color: #fdfdfd;
+  width: 70px;
+  height:56px;
+}
+*/
+
+.download-read-divider {
+  margin-top:.1em;
+  margin-bottom:.1em;
+  padding-top:0;
+  padding-bottom:0;
+}
+.loader {
+  text-align:center;
+  img {
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+div.field.layout-default {
+  margin-bottom:15px;
 }

@@ -15,6 +15,12 @@
 @danger-bg-color:@alert-danger-bg;
 @info-bg-color:@alert-info-bg;
 
+@bp-red:   #8a231b;
+@bp-blue:  #1d295b;
+@bp-brown: #c7993d;
+@bp-grey:  #3c454e;
+@bp-footer-bg: #2f373f;
+
 @font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
@@ -22,6 +28,32 @@
 @font-family-base:        @font-family-sans-serif;
 
 @font-size-base:          14px;
+
+
+// In this app, we actually don't want an inverse navbar, so we will replace all of those variables
+@navbar-inverse-color:                      @navbar-default-color;
+@navbar-inverse-bg:                         white;
+@navbar-inverse-border:                     @navbar-default-border;
+
+// Inverted navbar links
+@navbar-inverse-link-color:                 @navbar-default-link-color;
+@navbar-inverse-link-hover-color:           @navbar-default-link-hover-color;
+@navbar-inverse-link-hover-bg:              @navbar-default-link-hover-bg;
+@navbar-inverse-link-active-color:          @navbar-default-link-hover-color;
+@navbar-inverse-link-active-bg:             @navbar-default-link-active-bg;
+@navbar-inverse-link-disabled-color:        @navbar-default-link-disabled-color;
+@navbar-inverse-link-disabled-bg:           @navbar-default-link-disabled-bg;
+
+// Inverted navbar brand label
+@navbar-inverse-brand-color:                @navbar-default-brand-color;
+@navbar-inverse-brand-hover-color:          @navbar-default-brand-hover-color;
+@navbar-inverse-brand-hover-bg:             @navbar-default-brand-hover-bg;
+
+// Inverted navbar toggle
+@navbar-inverse-toggle-hover-bg:            @navbar-default-toggle-hover-bg;
+@navbar-inverse-toggle-icon-bar-bg:         @navbar-default-toggle-icon-bar-bg;
+@navbar-inverse-toggle-border-color:        @navbar-default-toggle-border-color;
+
 
 
 // some mixins

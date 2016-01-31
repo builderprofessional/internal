@@ -4,7 +4,29 @@ internalApp = angular.module('InternalApp', ['engApp', 'engAuth', 'ngAnimate', '
 engApp.constant('APP_CONFIG',{
   App: {
     Name: "Builder Professional Internal"
-  }
+  },
+  contactMethods:[
+    {
+        'cssClass' : 'address',
+        'label' : 'Address: ',
+        'value' : 'PO Box 121068 Arlington, TX 76012',
+    },
+    {
+        'cssClass' : 'phone',
+        'label' : 'Phone: ',
+        'value' : '(844) 63-BUILD / (844) 632-8453',
+    },
+    {
+        'cssClass' : 'email',
+        'label' : 'Support: ',
+        'value' : 'support@builderprofessional.com',
+    },
+    {
+        'cssClass' : 'email',
+        'label' : 'Sales: ',
+        'value' : 'sales@builderprofessional.com',
+    },
+  ]
 });
 //configure routing defaults
 internalApp.config(function ($locationProvider, $urlRouterProvider, $httpProvider)
