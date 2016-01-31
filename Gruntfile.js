@@ -289,7 +289,12 @@ module.exports = function(grunt) {
           flatten: true,
           src: ['web/images/**.+('+imageExtenstions+')'],
           dest: 'dist/images'
-        }]
+        },{
+           expand: true,
+           flatten: true,
+           src: ['web/images/marketing/**.+('+imageExtenstions+')'],
+           dest: 'dist/images/marketing'
+         }]
       }
     },
     jshint: {
