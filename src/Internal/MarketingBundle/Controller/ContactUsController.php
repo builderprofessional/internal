@@ -34,7 +34,7 @@ class ContactUsController extends ServiceController
     $post = json_decode($rawData, true);
 
     $contactUsValidator = Factory::createNewObject(Validator::class);
-    if (!$contactUsValidator->validateWithRulesKey($post, 'contactus', ['Name', 'Email']))
+    if (!$contactUsValidator->validateWithRulesKey($post, 'contactus'))
     {
       return $contactUsValidator->getHttpErrorResponse();
     }
