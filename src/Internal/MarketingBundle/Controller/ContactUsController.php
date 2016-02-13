@@ -7,12 +7,13 @@
 namespace Internal\MarketingBundle\Controller;
 
 
+use Internal\MarketingBundle\Notification\ContactUs;
+
 use Engine\EngineBundle\Validation\Validator;
 
 use ThirdEngine\Factory\Factory;
 use ThirdEngine\PropelSOABundle\Controller\ServiceController;
 use ThirdEngine\PropelSOABundle\Http\PropelSOASuccessResponse;
-use ThirdEngine\PropelSOABundle\Http\PropelSOAErrorResponse;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -30,7 +31,7 @@ class ContactUsController extends ServiceController
   public function postAction(Request $request)
   {
     $rawData = $request->getContent();
-    $post = json_decode($rawData);
+    $post = json_decode($rawData, true);
 
     $contactUsValidator = Factory::createNewObject(Validator::class);
     if (!$contactUsValidator->validateWithRulesKey($post, 'contactus', ['Name', 'Email']))
@@ -38,6 +39,17 @@ class ContactUsController extends ServiceController
       return $contactUsValidator->getHttpErrorResponse();
     }
 
+    $contactUsData = [
+      $post['Name'],
+      $post['Email'],
+      $post['Phone'],
+      $post['Time'],
+      $post['Question'],
+    ];
 
+    $contactUsNotification = Factory::createNewObject(ContactUs::class, $contactUsData);
+    $contactUsNotification->send();
+
+    return new PropelSOASuccessResponse(['sent' => true]);
   }
 }
