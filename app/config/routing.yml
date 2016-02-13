@@ -8,10 +8,10 @@ propelsoa:
 
 training_training:
     resource: "@InternalMarketingBundle/Resources/config/routing.yml"
-    prefix:   /training
+    prefix:   /internal
 public_training_training:
     resource: "@InternalMarketingBundle/Resources/config/publicrouting.yml"
-    prefix:   /public/training
+    prefix:   /public/internal
 
 auth:
   resource: "@EngineAuthBundle/Resources/config/routing.yml"
