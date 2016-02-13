@@ -1,3 +1,3 @@
 contact:
   path: /contactUs
-  default: { _controller: InternalMarketingBundle:ContactUs:post }
+  defaults: { _controller: InternalMarketingBundle:ContactUs:post }

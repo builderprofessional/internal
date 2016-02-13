@@ -67,6 +67,9 @@ class ContactUs extends Notification
     $this->phone = $phone;
     $this->timeAvailable = $timeAvailable;
     $this->question = $question;
+
+    $this->setupStandardTokenDefinitions();
+    $this->addAdditionalTokens();
   }
 
   /**
@@ -74,11 +77,30 @@ class ContactUs extends Notification
    */
   protected function addAdditionalTokens()
   {
-    $this->addMemberToken('NAME', 'name');
-    $this->addMemberToken('EMAIL', 'email');
-    $this->addMemberToken('PHONE', 'phone');
-    $this->addMemberToken('TIME_AVAILABLE', 'timeAvailable');
-    $this->addMemberToken('QUESTION', 'question');
+    $this->tokenDefinitions['NAME'] = function()
+    {
+      return $this->name;
+    };
+
+    $this->tokenDefinitions['EMAIL'] = function()
+    {
+      return $this->email;
+    };
+
+    $this->tokenDefinitions['PHONE'] = function()
+    {
+      return $this->phone;
+    };
+
+    $this->tokenDefinitions['TIME_AVAILABLE'] = function()
+    {
+      return $this->timeAvailable;
+    };
+
+    $this->tokenDefinitions['QUESTION'] = function()
+    {
+      return $this->question;
+    };
   }
 
   /**
@@ -94,6 +116,7 @@ class ContactUs extends Notification
    */
   public function getToEmail()
   {
-    return ['sales@builderprofessional.com', 'support@builderprofessional.com'];
+//    return ['sales@builderprofessional.com', 'support@builderprofessional.com'];
+    return ['tony.vance@builderprofessional.com', 'robert.flach@builderprofessional.com'];
   }
 }
