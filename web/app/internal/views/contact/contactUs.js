@@ -35,7 +35,7 @@
           {
             $scope.validator.isValid().then(function(result){
               // Clear out the Braintree model to ensure that we are keeping the values for as short a time as possible
-              $http.post(env_url+'/public/contactus'+env_postfix,$scope.ContactUs);
+              $http.post(env_url+'/public/internal/contactus'+env_postfix,$scope.ContactUs);
               $scope.contactUsModal.hide();
             },function(result){
               engAlert.alert('contactus_error','Please ensure all information is correct before saving.', 'contactError');
