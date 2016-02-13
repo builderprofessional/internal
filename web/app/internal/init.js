@@ -1,9 +1,10 @@
 // define our angular app that encompasses all of our pages and inject all
 // module dependencies
-internalApp = angular.module('InternalApp', ['engApp', 'engAuth', 'ngAnimate', 'engState', 'mgcrea.ngStrap', 'LocalStorageModule']);
+internalApp = angular.module('InternalApp', ['engApp', 'engAuth', 'ngAnimate', 'engState', 'mgcrea.ngStrap', 'LocalStorageModule','twitter.timeline']);
 engApp.constant('APP_CONFIG',{
   App: {
-    Name: "Builder Professional Internal"
+    Name: "Builder Professional Internal",
+    LogoUrl: "https://builderprofessional.com"
   },
   contactMethods:[
     {

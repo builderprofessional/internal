@@ -52,12 +52,6 @@ a {
   border-color:darken(@alert-success-bg,29%);
   border-width:3px;
 }
-h1, .h1, h2, .h2, h3, .h3 {
-  &:first-child {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-}
 .one-half {
   .make-xs-column(12);
   .make-md-column(6);
@@ -66,3 +60,10 @@ div.field.layout-default {
   padding-left:15px;
   padding-right:15px;
 }
+@media (min-width:1000px)
+{
+  .container>.navbar-header {
+    padding-right:2em;
+  }
+}
+
