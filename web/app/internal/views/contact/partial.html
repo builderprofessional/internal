@@ -1,0 +1,32 @@
+<div class="contact-us-modal">
+<div class="consultAction">
+  <a ng-click="contactUs()">Get Started with a Free Consultation</a>
+</div>
+<script type="text/ng-template" id="contact-us-modal.html">
+  <eng-alerts alert-prefix="contactus"></eng-alerts>
+  <form role="form" lpformnum="1" class="contact-us-form">
+    <eng-field type="text" placeholder="Your Name" validator="validator" ng-model="ContactUs.Name" label="Name" >
+    </eng-field>
+    <eng-field type="text" placeholder="yourname@yourdomain.com" validator="validator" ng-model="ContactUs.Email" label="Email" >
+    </eng-field>
+    <eng-field type="text" placeholder="(xxx) xxx-xxxx" validator="validator" ng-model="ContactUs.Phone" label="Phone" >
+    </eng-field>
+    <eng-field type="text" placeholder="e.g. After 5pm Weekdays OR Anytime on Saturday" validator="validator" ng-model="ContactUs.Time" label="Best Time to Contact You" >
+    </eng-field>
+    <eng-field type="textarea"
+               placeholder="e.g. Looking for more information about your Turn-Key Website offering" validator="validator"
+               ng-model="ContactUs.Question" label="Any Question or Comment Before We Contact You?" >
+    </eng-field>
+    <fieldset class="record-actions">
+      <div class="action-buttons">
+        <eng-action-button ng-click="cancel()" data-button-text="Cancel" data-button-action="cancel-aside"></eng-action-button>
+
+        <eng-action-button ng-click="save()" data-button-text="Submit Request" data-button-action="email"></eng-action-button>
+      </div>
+    </fieldset>
+
+  </form>
+</script>
+
+</div>
+

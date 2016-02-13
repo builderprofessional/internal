@@ -26,6 +26,10 @@
           }
       }
   },
+  "contactus": {
+    "Name": ["required"],
+    "Email": ["required", "email"]
+  },
   "signup": {
     "Name": ["required"],
     "Email": ["required", "email"],
