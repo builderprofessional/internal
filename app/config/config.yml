@@ -24,6 +24,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        notificationSignatureLocationText: %notification_signature_location_text%
+        notificationSignatureLocationHtml: %notification_signature_location_html%
 
 # Propel Configuration
 propel:
