@@ -112,11 +112,10 @@ class ContactUs extends Notification
   }
 
   /**
-   * @return array
+   * @return string
    */
   public function getToEmail()
   {
-//    return ['sales@builderprofessional.com', 'support@builderprofessional.com'];
-    return ['tony.vance@builderprofessional.com', 'robert.flach@builderprofessional.com'];
+    return 'sales@builderprofessional.com';
   }
 }
