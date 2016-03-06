@@ -7,26 +7,26 @@ environments:
     production:
         adapter: mysql
         host: localhost
-        name: internal
-        user: internal
-        pass: internal
+        name: bpinternal
+        user: bpinternal
+        pass: bpinternal
         port: 3306
         charset: utf8
 
     development:
         adapter: mysql
         host: localhost
-        name: internal
-        user: internal
-        pass: internal
+        name: bpinternal
+        user: bpinternal
+        pass: bpinternal
         port: 3306
         charset: utf8
 
     testing:
         adapter: mysql
         host: localhost
-        name: internal
-        user: internal
-        pass: internal
+        name: bpinternal
+        user: bpinternal
+        pass: bpinternal
         port: 3306
         charset: utf8
