@@ -7,6 +7,7 @@ parameters:
     database_user: bpinternal
     database_password: bpinternal
     mailer_transport: smtp
+    mailer_host: smtp.zoho.com
     mailer_user: noreply@builderprofessional.com
     mailer_password: honorRick99
     secret: ThisTokenIsNotSoSecretChangeIt
