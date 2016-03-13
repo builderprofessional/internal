@@ -26,6 +26,17 @@
           }
       }
   },
+  "purchase": {
+    "Name": ["required"],
+    "Email": ["required", "email"],
+    "State": ["required"],
+    "ZipCode": ["required"],
+    "ProductCodes": ["required"],
+    "CreditCardNumber": {"0":"required","minMax":{"0":16,"1":16,"errorMessage":"Must be a 16 digit credit card number"}},
+    "CVV": ["required"],
+    "ExpirationYear": {"0":"required","minMax":{"0":4,"1":4,"errorMessage":"Must be a 4 digit year (e.g. 2015)"}},
+    "ExpirationMonth": {"0":"required","minMax":{"0":2,"1":2,"errorMessage":"Must be a 2 digit month (e.g. 04 for april)"}}
+  },
   "contactus": {
     "Name": ["required"],
     "Email": ["required", "email"]

@@ -44,12 +44,7 @@ class AddDesktopEstimatorProducts extends AbstractMigration
 
     $this->execute("
       INSERT INTO billing_product (class_key, date_created, code, name, amount, description, position)
-        Values ('one_time', NOW(), 'ESTIMATOR_EXPANDED_LICENSE_2', 'Estimator - 2 Extra User Licenses', 990000, 'Adds two new user licenses to your package.', 1);
-    ");
-
-    $this->execute("
-      INSERT INTO billing_product (class_key, date_created, code, name, amount, description, position)
-        Values ('one_time', NOW(), 'ESTIMATOR_EXPANDED_LICENSE_10', 'Estimator - 10 Extra User Licenses', 1990000, 'Adds ten new user licenses to your package.', 1);
+        Values ('one_time', NOW(), 'ESTIMATOR_EXTRA_LICENSE', 'Estimator - Extra User License', 490000, 'Adds a new user license to your package.', 1);
     ");
   }
 }
