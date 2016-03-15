@@ -10,4 +10,8 @@ class DefaultController extends Controller
     {
         return $this->render('InternalMarketingBundle:Default:index.html.twig');
     }
+    public function purchaseAction()
+    {
+        return $this->render('InternalMarketingBundle:Default:purchase.html.twig');
+    }
 }
