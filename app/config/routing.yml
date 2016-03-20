@@ -1,6 +1,9 @@
 app_homepage:
   path: /
   defaults: { _controller: InternalMarketingBundle:Default:index }
+app_purchase:
+  path: /purchase
+  defaults: { _controller: InternalMarketingBundle:Default:purchase }
 
 propelsoa:
   resource: "@PropelSOABundle/Resources/config/routing.yml"
