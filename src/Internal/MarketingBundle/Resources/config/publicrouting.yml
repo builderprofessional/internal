@@ -1,3 +1,7 @@
 contact:
   path: /contactUs
   defaults: { _controller: InternalMarketingBundle:ContactUs:post }
+
+estimator_purchase:
+  path: /purchase
+  defaults: { _controller: InternalMarketingBundle:EstimatorPurchase:post }
