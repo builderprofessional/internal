@@ -68,9 +68,20 @@
             pQuery.isPublic = true;
             var qRes = pQuery.runQuery($scope, 'productresult');
             var signupRules = engValidation.getRuleset('completeSignup');
+            $scope.SignUp.EXTRA_LICENSE=0;
+            if ( $scope.selectedProductId == -1 )
+            {
+              $scope.SignUp.EXTRA_LICENSE=1;
+            }
 
             $q.all([qRes, qToken, signupRules]).then(function () {
               $scope.Products = $scope.productresult.collection;
+              angular.forEach($scope.Products,function(product){
+                if ( product.model.Code == 'EXTRA_LICENSE' )
+                {
+                  $scope.ExtraProduct = product.model;
+                }
+              });
               $scope.loaded=true;
               $scope.Products.sort(function (a, b) {
                 return ((a.model.Position < b.model.Position) ? -1 : (a.model.Position > b.model.Position) ? 1 : 0 );
@@ -152,6 +163,14 @@
               $scope.setPhase('COLLECT');
             }
           };
+          $scope.setAmount = function()
+          {
+            $scope.SignUp.Amount = parseInt($scope.getPlan('Amount'),10) + parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
+          };
+          $scope.getExtraAmount = function()
+          {
+            return parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
+          };
 
           $scope.env_url = env_url;
 
@@ -164,6 +183,7 @@
           $scope.saveCC = function ()
           {
             engAlert.clearContextSwitch();
+            $scope.setAmount();
             $scope.validator.isValid().then(function(result){
               var braintree = Braintree.create(braintreeCSE);
               $scope.SignUp.CreditCardNumberEncrypted = braintree.encrypt($scope.SignUp.CreditCardNumber);
@@ -176,6 +196,15 @@
               $scope.SignUp.ExpirationMonth = "";
               $scope.SignUp.ExpirationYear = "";
               $scope.SignUp.CVV = "";
+              $scope.SignUp.ProductCodes = {};
+              if ( $scope.selectedProductId != -1 )
+              {
+                $scope.SignUp.ProductCodes[$scope.getPlan('Code')] = 1;
+              }
+              if ( $scope.SignUp.EXTRA_LICENSE )
+              {
+                $scope.SignUp.ProductCodes.EXTRA_LICENSE = $scope.SignUp.EXTRA_LICENSE;
+              }
               qTax = $http.get(env_url + '/public/billing/tax/adhoc?data='+encodeURIComponent(JSON.stringify($scope.SignUp)) ).success(function (result) {
                 $scope.Totals = result.Data;
               });
@@ -190,26 +219,11 @@
           {
             engAlert.clearContextSwitch();
             angular.element('body').addClass('waiting-for-angular');
-            confirmed = $http.post(env_url + '/public/training/signup/complete',$scope.SignUp).then(function (result) {
+            confirmed = $http.post(env_url + '/public/billing/purchase',$scope.SignUp).then(function (result) {
               angular.element('body').removeClass('waiting-for-angular');
-              $scope.ClientId = result.data.Data.ClientId;
-              $scope.UserId = result.data.Data.UserId;
+              $scope.PurchaseResult = result.data.Data;
               $scope.ReceiptNumber = result.data.Data.ReceiptNumber;
-              var query = PropelSOAService.getQuery(
-                  'Engine', 'Billing', 'Client'
-              );
-
-              query.addInnerJoin('ClientProduct->Product');
-              query.addInnerJoin('Company->Address');
-
-
-              var qClient = query.runQueryOne($scope, 'BillingClient');
-
-              $q.all([qClient]).then(function ()
-              {
-                $scope.client = $scope.BillingClient;
-                $scope.setPhase('RECEIPT');
-              });
+              $scope.setPhase('RECEIPT');
             },function(result){
               angular.element('body').removeClass('waiting-for-angular');
               $scope.setPhase('COLLECT');

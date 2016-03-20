@@ -1,0 +1,18 @@
+<div class="removed-feature">
+    <h4>Limited to 5 Users on Your Account</h4>
+
+    <div ng-if="additionalData.UserCount > 5">
+        <p>You have more users on your account than your new plan will allow. BSE support staff will contact you to
+            determine which users will need to be removed. You will be limited to only 5 users on your account going forward.</p>
+    </div>
+    <div ng-if="additionalData.UserCount <= 5">
+        <p>You will be limited to only 5 users on your account going forward.</p>
+    </div>
+</div>
+
+<div class="removed-feature">
+    <h4>No Free Webinar Training</h4>
+
+    <p>On your existing plan you had 2 free webinar trainings per year included. Any online training you would
+        like to attend will now be charged separately.</p>
+</div>

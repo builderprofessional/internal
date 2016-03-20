@@ -60,8 +60,11 @@
   .nav_top.pull-right
   {
     width: 20em;
-    position: relative;
-    top: -6em;
+    position: absolute;
+    top: 0em;
+    right:1em;
+    overflow:hidden;
+    float:none !important;
   }
   #copyright {
     margin-top:2em;
@@ -75,8 +78,7 @@
     text-align:center;
     font-weight: 500;
     color: #3f4e7d;
-    margin-top: 3px;
-    float: left;
+    margin-top: 1em;
     font-size: 30px;
     width: 100%;
   }
@@ -289,8 +291,8 @@
       }
       .totals-block {
         .make-xs-column(12);
-        .make-sm-column(8);
-        .make-lg-column(8);
+        .make-sm-column(12);
+        .make-lg-column(12);
         position: absolute;
         bottom: 3em;
         right: 0px;
@@ -300,9 +302,9 @@
           th {
             padding-right:1em;
           }
+          margin-right:3em;
+          float:right;
           width: auto;
-          margin-right: 1em;
-          right:-2em;
           td:nth-child(2) {
             text-align: right;
           }
@@ -355,6 +357,17 @@
   }
 }
 
-.change-plan .ESTIMATOR_EXTRA_LICENSE {
+.change-plan .EXTRA_LICENSE {
   display:none;
+}
+.phase [for="SignUp-ESTIMATOR_EXTRA_LICENSE"] {
+  display:none;
+}
+#SignUp-EXTRA_LICENSE {
+  text-align:right;
+  margin-top:5px;
+  .creditcard & {
+    width:15em;
+    max-width:100%;
+  }
 }

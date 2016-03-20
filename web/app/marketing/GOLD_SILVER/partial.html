@@ -1,0 +1,18 @@
+<div class="removed-feature">
+    <h4>Lower Level of Support</h4>
+
+    <p>On your existing plan you have access to phone support with a BSE support professional. With the
+        Silver plan you will be limited to email and live chat support only.</p>
+</div>
+
+<div class="removed-feature">
+    <h4>Limited to 2 Users on Your Account</h4>
+
+    <div ng-if="additionalData.UserCount > 2">
+        <p>You have more users on your account than your new plan will allow. BSE support staff will contact you to
+            determine which users will need to be removed. You will be limited to only 2 users on your account going forward.</p>
+    </div>
+    <div ng-if="additionalData.UserCount <= 2">
+        <p>You will be limited to only 2 users on your account going forward.</p>
+    </div>
+</div>

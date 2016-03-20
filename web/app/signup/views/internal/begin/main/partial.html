@@ -1,12 +1,3 @@
-<div ng-if="selectedProductId && phase.localeCompare('CHOOSE') == 1 && selectedProductId == -1 && loaded">
-  <div class="phase" ng-class="no-product">
-    <div class="pull-right expander">
-    </div>
-    <h1>
-      Add User Licenses
-    </h1>
-  </div>
-</div>
 <div ng-if="selectedProductId && phase.localeCompare('CHOOSE') == 1 && selectedProductId != -1 && loaded">
   <div class="phase" ng-class="getPlan('Name')">
     <div class="pull-right expander">
@@ -15,7 +6,23 @@
       </a>
     </div>
     <h1>
-      Your Choice: {{getPlan('Name')}} (<span eng-currency amount="getPlan('Amount')"></span><span ng-show="Totals && Totals.Tax > 0">+<span eng-currency amount="Totals.Tax"></span> Tax</span>)
+      Your Choice: {{getPlan('Name')}} (<span eng-currency amount="getPlan('Amount')"></span>)
+    </h1>
+  </div>
+</div>
+<div ng-if="selectedProductId && phase.localeCompare('CHOOSE') == 1 && (selectedProductId == -1 || (phase.localeCompare('COLLECT') == 1 && SignUp.EXTRA_LICENSE > 0 ) ) && loaded">
+  <div class="phase" ng-class="no-product">
+    <div class="pull-right expander">
+      <eng-field ng-if="phase=='COLLECT' && selectedProductId == -1" type="text" placeholder="# of Licenses" validator="validator" ng-model="SignUp.EXTRA_LICENSE" label="Additional Licenses" ></eng-field>
+      <span ng-if="phase != 'COLLECT'">
+        <a ng-click="setPhase('COLLECT')" ng-show="canChange()">
+          {{SignUp.EXTRA_LICENSE}} Licenses
+        </a>
+      </span>
+    </div>
+    <h1>
+      {{ExtraProduct.Name}}
+      (<span eng-currency amount="ExtraProduct.Amount"></span>/each)
     </h1>
   </div>
 </div>
@@ -39,9 +46,6 @@
     <div class="header">
       <h1>
         <span>{{plan.model.Name}}</span>
-          <span ng-if="plan.model.Code=='GOLD'" class="label best-plan">
-              Best Value
-          </span>
       </h1>
       <hr/>
     </div>
@@ -61,8 +65,11 @@
 </div>
 <eng-alerts alert-prefix="payment"></eng-alerts>
 <div ng-if="selectedProductId && phase == 'COLLECT' && loaded" style="width:100%;">
+  <div ng-if="selectedProductId == -1">
+  </div>
   <div class="cc-form">
     <div class="new-payment-information" ng-if="validator && validator.rules">
+
       <form>
         <h1 class="index_main_quote" style="width:100%;">Enter payment info.</h1>
 
@@ -70,11 +77,14 @@
         <legend>A Little About You</legend>
           <eng-field type="text" placeholder="First Name" validator="validator" ng-model="SignUp.FirstName" label="First Name" ></eng-field>
           <eng-field type="text" placeholder="Last Name" validator="validator" ng-model="SignUp.LastName" label="Last Name" ></eng-field>
-          <eng-field type="text" placeholder="Email" validator="validator" ng-model="SignUp.Email" label="Email" ng-disabled="SignUp.Email.length"></eng-field>
+          <eng-field type="text" placeholder="Email" validator="validator" ng-model="SignUp.Email" label="Email"></eng-field>
           <eng-field type="text" placeholder="Company Name" validator="validator" ng-model="SignUp.CompanyName" label="Company Name" ></eng-field>
         </fieldset>
         <fieldset class="creditcard">
           <legend>Payment Info</legend>
+          <div ng-if="selectedProductId && phase == 'COLLECT' && selectedProductId != -1 && loaded" class="extra-holder">
+            <eng-field type="text" placeholder="# of Licenses" validator="validator" ng-model="SignUp.EXTRA_LICENSE" label="{{ExtraProduct.Name}} ({{ExtraProduct.Amount|engCurrency:2}}/each)" ></eng-field>
+          </div>
           <eng-field type="text" placeholder="Enter a Valid Credit Card Number" validator="validator" ng-model="SignUp.CreditCardNumber" label="CC #" >
           </eng-field>
 
@@ -153,7 +163,7 @@
 </div>
 <div ng-if="selectedProductId && phase == 'CONFIRM' && loaded" style="width:100%;" ng-class="phase">
   <h1 class="index_main_quote">Your Credit Card has not yet been charged.<br/>
-    <span class="index_main_quote_highlight">Click Confirm to Start Training!</span></h1>
+    <span class="index_main_quote_highlight">Click Confirm to complete your purchase!</span></h1>
   <div class="plan-info info-block marketing-block" ng-class="getPlan('Name')">
     <div class="header">
       <h1>
@@ -187,8 +197,16 @@
             To be charged now:
           </td>
         </tr>
-        <tr ng-if="Totals.TaxRate > 0">
+        <tr>
           <th>{{getPlan('Name')}}</th>
+          <td><span eng-currency amount="getPlan('Amount')"></span></td>
+        </tr>
+        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
+          <th>{{ExtraProduct.Name}} ({{SignUp.ProductCodes.EXTRA_LICENSE}})</th>
+          <td><span eng-currency amount="getExtraAmount()"></span></td>
+        </tr>
+        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE || Totals.TaxRate > 0">
+          <th>Sub Total</th>
           <td><span eng-currency amount="Totals.Subtotal"></span></td>
         </tr>
         <tr>
@@ -239,11 +257,11 @@
       <tbody>
         <td class="date">{{today|date:'shortDate'}}</td>
         <td class="bill-to">
-          {{client.relations.Company.model.Name || Company.model.Name || 'Your Company'}}<br/>
-          {{client.relations.Company.relations.Address.model.Address || 'No Address Provided'}}<br/>
-          {{client.relations.Company.relations.Address.model.City || 'No City'}},
-          {{client.relations.Company.relations.Address.model.State || 'No State'}}
-          {{client.relations.Company.relations.Address.model.ZipCode || 'No Zipcode'}}<br/>
+          {{PurchaseResult.Name || Company.model.Name || 'Your Company'}}<br/>
+          {{SignUp.Address || 'No Address Provided'}}<br/>
+          {{SignUp.City || 'No City'}},
+          {{PurchaseResult.State || 'No State'}}
+          {{PurchaseResult.ZipCode || 'No Zipcode'}}<br/>
         </td>
         <td class="empty"></td>
         <td class="Total"><span eng-currency amount="Totals.Total"></span></td>
@@ -261,17 +279,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr ng-if="selectedProductId != -1">
           <td>{{getPlan('Name')}}</td>
           <td><span eng-currency amount="getPlan('Amount')"></span></td>
           <td>1</td>
           <td class="totals"><span eng-currency amount="getPlan('Amount')"></span></td>
+        </tr>
+        <tr ng-if="SignUp.ProductIds.EXTRA_LICENSE">
+          <td>{{ExtraProduct.Name}}</td>
+          <td><span eng-currency amount="ExtraProduct.Amount"></span></td>
+          <td>{{SignUp.ProductIds.EXTRA_LICENSE}}</td>
+          <td class="totals"><span eng-currency amount="getExtraAmount()"></span></td>
+        </tr>
       </tbody>
     </table>
   </div>
   <div class="pull-right col-lg-4 totals-block">
     <table class="totals">
       <tbody>
+        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
+          <th>Sub Total</th>
+          <td><span eng-currency amount="Totals.Subtotal"></span></td>
+        </tr>
         <tr ng-if="Totals.Tax">
           <th>Tax</th>
           <td><span eng-currency amount="Totals.Tax"></span></td>
