@@ -30,27 +30,27 @@ class ContactUs extends Notification
   /**
    * @var string
    */
-  protected $name;
+  public $name;
 
   /**
    * @var string
    */
-  protected $email;
+  public $email;
 
   /**
    * @var string
    */
-  protected $phone;
+  public $phone;
 
   /**
    * @var string
    */
-  protected $timeAvailable;
+  public $timeAvailable;
 
   /**
    * @var string
    */
-  protected $question;
+  public $question;
 
 
   /**
@@ -77,30 +77,11 @@ class ContactUs extends Notification
    */
   protected function addAdditionalTokens()
   {
-    $this->tokenDefinitions['NAME'] = function()
-    {
-      return $this->name;
-    };
-
-    $this->tokenDefinitions['EMAIL'] = function()
-    {
-      return $this->email;
-    };
-
-    $this->tokenDefinitions['PHONE'] = function()
-    {
-      return $this->phone;
-    };
-
-    $this->tokenDefinitions['TIME_AVAILABLE'] = function()
-    {
-      return $this->timeAvailable;
-    };
-
-    $this->tokenDefinitions['QUESTION'] = function()
-    {
-      return $this->question;
-    };
+    $this->addTokenFromProperty('NAME', $this, 'name');
+    $this->addTokenFromProperty('EMAIL', $this, 'email');
+    $this->addTokenFromProperty('PHONE', $this, 'phone');
+    $this->addTokenFromProperty('TIME_AVAILABLE', $this, 'timeAvailable');
+    $this->addTokenFromProperty('QUESTION', $this, 'question');
   }
 
   /**
