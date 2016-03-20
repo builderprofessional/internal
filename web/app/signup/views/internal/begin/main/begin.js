@@ -165,7 +165,12 @@
           };
           $scope.setAmount = function()
           {
-            $scope.SignUp.Amount = parseInt($scope.getPlan('Amount'),10) + parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
+            $scope.SignUp.Amount = 0;
+            if ( $scope.selectedProductId != -1)
+            {
+              $scope.SignUp.Amount +=parseInt($scope.getPlan('Amount'),10);
+            }
+            $scope.SignUp.Amount += parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
           };
           $scope.getExtraAmount = function()
           {
@@ -197,6 +202,7 @@
               $scope.SignUp.ExpirationYear = "";
               $scope.SignUp.CVV = "";
               $scope.SignUp.ProductCodes = {};
+              $scope.SignUp.Name = $scope.SignUp.FirstName + ' ' + $scope.SignUp.LastName;
               if ( $scope.selectedProductId != -1 )
               {
                 $scope.SignUp.ProductCodes[$scope.getPlan('Code')] = 1;
@@ -207,10 +213,10 @@
               }
               qTax = $http.get(env_url + '/public/billing/tax/adhoc?data='+encodeURIComponent(JSON.stringify($scope.SignUp)) ).success(function (result) {
                 $scope.Totals = result.Data;
+                $scope.vault=true;
+                $scope.setPhase('CONFIRM');
               });
 
-              $scope.vault=true;
-              $scope.setPhase('CONFIRM');
             },function(result){
               engAlert.alert('payment_error','Please ensure all information is correct before saving.', 'paymentInfo');
             });

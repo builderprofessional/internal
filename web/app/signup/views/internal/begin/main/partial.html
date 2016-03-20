@@ -18,6 +18,9 @@
         <a ng-click="setPhase('COLLECT')" ng-show="canChange()">
           {{SignUp.EXTRA_LICENSE}} Licenses
         </a>
+        <span ng-hide="canChange()">
+          {{SignUp.EXTRA_LICENSE}} Licenses
+        </span>
       </span>
     </div>
     <h1>
@@ -164,7 +167,7 @@
 <div ng-if="selectedProductId && phase == 'CONFIRM' && loaded" style="width:100%;" ng-class="phase">
   <h1 class="index_main_quote">Your Credit Card has not yet been charged.<br/>
     <span class="index_main_quote_highlight">Click Confirm to complete your purchase!</span></h1>
-  <div class="plan-info info-block marketing-block" ng-class="getPlan('Name')">
+  <div class="plan-info info-block marketing-block" ng-class="getPlan('Name')" ng-if="selectedProductId != -1">
     <div class="header">
       <h1>
         <span>{{getPlan('Name')}}</span>
@@ -180,7 +183,7 @@
       </div>
     </div>
   </div>
-  <div class="info-block marketing-block confirm-block">
+  <div class="info-block marketing-block confirm-block" ng-class="{noproduct:selectedProductId == -1}">
     <h1>Confirm Purchase</h1>
     <div class="pricing" ng-show="getPLan('ClassKey') == 'recurring'">
       You will be charged: <span eng-currency amount="Totals.Total"></span><span> each month until you cancel.
@@ -197,7 +200,7 @@
             To be charged now:
           </td>
         </tr>
-        <tr>
+        <tr ng-if="selectedProductId != -1">
           <th>{{getPlan('Name')}}</th>
           <td><span eng-currency amount="getPlan('Amount')"></span></td>
         </tr>
@@ -205,7 +208,7 @@
           <th>{{ExtraProduct.Name}} ({{SignUp.ProductCodes.EXTRA_LICENSE}})</th>
           <td><span eng-currency amount="getExtraAmount()"></span></td>
         </tr>
-        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE || Totals.TaxRate > 0">
+        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
           <th>Sub Total</th>
           <td><span eng-currency amount="Totals.Subtotal"></span></td>
         </tr>
@@ -237,7 +240,7 @@
   <div class="col-md-4 builder-address">
     PO&nbsp;Box&nbsp;121068<br/>
     Arlington,&nbsp;TX 76012-1068<br/><br/>
-    Phone: (916)&nbsp;WE-BUILD / (916)&nbsp;932-8459<br/>
+    Phone: (844)&nbsp;63-BUILD / (844)&nbsp;632-8453<br/>
     Fax:
     (800)&nbsp;494-7705<br/><br/>
     E-mail:
@@ -257,7 +260,7 @@
       <tbody>
         <td class="date">{{today|date:'shortDate'}}</td>
         <td class="bill-to">
-          {{PurchaseResult.Name || Company.model.Name || 'Your Company'}}<br/>
+          {{PurchaseResult.CompanyName || 'Your Company'}}<br/>
           {{SignUp.Address || 'No Address Provided'}}<br/>
           {{SignUp.City || 'No City'}},
           {{PurchaseResult.State || 'No State'}}
@@ -285,10 +288,10 @@
           <td>1</td>
           <td class="totals"><span eng-currency amount="getPlan('Amount')"></span></td>
         </tr>
-        <tr ng-if="SignUp.ProductIds.EXTRA_LICENSE">
+        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
           <td>{{ExtraProduct.Name}}</td>
           <td><span eng-currency amount="ExtraProduct.Amount"></span></td>
-          <td>{{SignUp.ProductIds.EXTRA_LICENSE}}</td>
+          <td>{{SignUp.ProductCodes.EXTRA_LICENSE}}</td>
           <td class="totals"><span eng-currency amount="getExtraAmount()"></span></td>
         </tr>
       </tbody>
@@ -299,19 +302,19 @@
       <tbody>
         <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
           <th>Sub Total</th>
-          <td><span eng-currency amount="Totals.Subtotal"></span></td>
+          <td><span eng-currency amount="PurchaseResult.Amount"></span></td>
         </tr>
         <tr ng-if="Totals.Tax">
           <th>Tax</th>
-          <td><span eng-currency amount="Totals.Tax"></span></td>
+          <td><span eng-currency amount="PurchaseResult.TaxAmount"></span></td>
         </tr>
         <tr>
           <th>Total</th>
-          <td><span eng-currency amount="Totals.Total"></span></td>
+          <td><span eng-currency amount="PurchaseResult.TotalAmount"></span></td>
         </tr>
         <tr>
           <th>Paid</th>
-          <td><span eng-currency amount="Totals.Total"></span></td>
+          <td><span eng-currency amount="PurchaseResult.TotalAmount"></span></td>
         </tr>
         <tr>
           <td colspan="2" class="msg">
@@ -321,9 +324,15 @@
       </tbody>
     </table>
   </div>
-  <div class="col-lg-12">
+  <div class="col-lg-12" ng-if="selectedProductId != -1">
     <h1 class="index_main_quote">
-      <a ng-href="{{env_url}}#/">Click here to continue on to the training</a>
+      <a href="https://web29.streamhoster.com/builderprofessional/estdownloads/BSEEstimator.exe">Click here to download the software</a>
+    </h1>
+    <p>Once you have downloaded the software, call 844-632-8453 and one of our installation professionals will guide you through the setup process and provide the unlock code necessary to run the software.</p>
+  </div>
+  <div class="col-lg-12" ng-if="selectedProductId == -1">
+    <h1 class="index_main_quote">
+      <p>Call 844-632-8453 to receive your additional unlock codes.</p>
     </h1>
   </div>
 
