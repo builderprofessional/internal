@@ -118,6 +118,11 @@
             });
           };
           $scope.reloadData();
+          $scope.noProduct = function() {
+            $scope.selectedProductId = -1;
+            $scope.SignUp.EXTRA_LICENSE=1;
+            $scope.setPhase('COLLECT');
+          };
 
 
           // Get the chosen plan or a property thereof
@@ -158,6 +163,7 @@
             }
             else
             {
+              $scope.SignUp.EXTRA_LICENSE=0;
               $scope.selectedProductId = plan.model.ProductId;
               angular.extend($scope.SignUp,plan.model);
               $scope.setPhase('COLLECT');
@@ -225,7 +231,7 @@
           {
             engAlert.clearContextSwitch();
             angular.element('body').addClass('waiting-for-angular');
-            confirmed = $http.post(env_url + '/public/billing/purchase',$scope.SignUp).then(function (result) {
+            confirmed = $http.post(env_url + '/public/internal/purchase',$scope.SignUp).then(function (result) {
               angular.element('body').removeClass('waiting-for-angular');
               $scope.PurchaseResult = result.data.Data;
               $scope.ReceiptNumber = result.data.Data.ReceiptNumber;

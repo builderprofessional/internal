@@ -1,0 +1,33 @@
+<div class="software-video-page">
+  <div class="site-title-container">
+    <h1 class="site-title">VIDEO DEMO AND TUTORIAL<br/> <small>Estimating &amp; Accounting Software for Homebuilders</small><br/>
+    </h1>
+  </div>
+  <div class="features">
+    <h1>Welcome</h1>
+    <div>
+      <span class="title"><b>Welcome to the Online Video series from Builder Professional!</b><br>
+        This series has been designed to get you up and running on the Estimator software.<br><br>
+        For a quick overview of all our products watch our <a href="http://builders-software.com/SalesVideos/SoftwareSales.wmv" target="_blank"><b>Video Demo</b></a><br><br>
+    <img src="/images/marketing/emblem.png" border="0" width="248" height="218"><br>
+    <a class="btn btn-default call-to-action" ng-click="signup()">Sounds Good, I'm ready to buy it</a><br/><br>
+    To help get you started quickly, we have prepared a <a href="//web29.streamhoster.com/builderprofessional/quickstart/QuickStartVideo4.wmv" target="_blank"><b>QuickStart video</b></a>.<br/><br/>
+        For more in depth instruction see the table of contents below<br/>
+        <span>Call 844-632-8453 for help with this video series.</span></span>
+    </div>
+    <div class="clearfix clear-fix"></div>
+  </div>
+  <div class="contents">
+    <ol class="chapters">
+      <li ng-repeat="part in Parts|filter:{Part:0}" class="chapter">
+        {{part.Title}}
+        <ol class="parts">
+          <li ng-repeat="subpart in Parts|filter:{Chapter:part.Chapter}" ng-if="subpart.Part != 0" class="part">
+            <a href="http://www.builders-software.com/estvideos/Chapter{{subpart.Chapter}}/{{subpart.Code}}/{{subpart.Code}}_media/{{subpart.Code}}.wmv">{{subpart.Title}}</a>
+
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+</div>

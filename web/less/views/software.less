@@ -3,7 +3,7 @@
     background-image: url("/images/software-header.png");
     background-size:cover;
     padding:0px;
-    height:150px;
+    height:200px;
     h1 {
       width:100%;
       height:100%;
@@ -15,29 +15,60 @@
         font-size:.8em;
         color:white;
       }
+      .call-to-action {
+        font-size:1em;
+      }
     }
   }
-  .features {
+  .call-to-action {
+    color:white;
+    margin-top:.5em;
+    font-size:2em;
+    border-radius:.5em;
+  }
+  .final-call {
+    padding:1em;
+  }
+  .features,.final-call {
+    .container;
+    text-align:center;
+    a {
+      display:inline-block;
+    }
     h1 {
       text-align:center;
       color:@color-secondary;
     }
-  }
+    p,ul {
+      text-align:left;
+      font-size:1.75em;
+      font-weight:bolder;
+    }
+    p {
+      color:@bp-blue;
+    }
+    ul {
+      color:@bp-brown;
+    }
   .feature-list {
     .make-sm-column(6);
+    padding-left:1em;
+    padding-right:1em;
+    text-align:left;
     li {
       text-transform: uppercase;
       color:@accent-color;
-      font-size:1.5em;
+      font-size:1em;
       font-weight:bolder;
       p {
         color:@color-secondary;
-        font-size:1em;
+        font-size:.75em;
         text-transform: none;
         font-weight:normal;
         line-height:1em;
       }
     }
+  }
   }
   div.featuredSoftwareScreens {
     margin-top: 5px;
@@ -58,7 +89,80 @@
       margin-top: 20px;
 
       img {
-        border: solid white 1px;
+        border: none;
+        height:231px;
+      }
+    }
+  }
+}
+.modal.lightbox-fade .modal-dialog {
+  img {
+    max-width:100%;
+    width:800px;
+    max-height:80%;
+  }
+  width:80%;
+  .modal-content {
+    background:rgba(255,255,255,.85);
+    * {
+      background:rgba(255,255,255,.85);
+    }
+  }
+  .modal-header {
+    background-color:white;
+    .border-top-radius(5px);
+    .close {
+      margin-top: -.5em;
+    }
+  }
+  .lightbox-container {
+    width:100%;
+    text-align:center;
+  }
+}
+.modal-backdrop.lightbox-fade-bg {
+  background-color:rgba(0,0,0,.7);
+}
+
+a.btn {
+  margin-left:auto;
+  margin-right:auto;
+  &.btn-default {
+    background-color:@color-secondary;
+  }
+}
+.software-video-page {
+  text-align:center;
+  .call-to-action {
+
+    color:white;
+    margin-top:.25em;
+    font-size:1em;
+    border-radius:.5em;
+  }
+  .features {
+    .container;
+  }
+  .contents {
+    .container;
+    text-align:left;
+    width:580px !important;
+    max-width:100% !important;
+    margin: 1em auto;
+  }
+  ol.chapters {
+    counter-reset: item;
+    list-style-type: none;
+    > li:before {
+      content: 'Chapter ' counter(item,decimal) ': ';
+      counter-increment:item;
+    }
+    ol.parts {
+      counter-reset:part;
+      list-style-type: none;
+      > li:before {
+        content: 'Part ' counter(part,decimal) ': ';
+        counter-increment:part;
       }
     }
   }
