@@ -69,7 +69,6 @@
   },
   "completeSignup": {
     "CompanyName": ["required"],
-    "ProductId": ["required", "integer"],
     "FirstName": ["required"],
     "LastName": ["required"],
     "Email": ["required", "email"],
