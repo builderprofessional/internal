@@ -143,4 +143,27 @@ a.btn {
   .features {
     .container;
   }
+  .contents {
+    .container;
+    text-align:left;
+    width:580px !important;
+    max-width:100% !important;
+    margin: 1em auto;
+  }
+  ol.chapters {
+    counter-reset: item;
+    list-style-type: none;
+    > li:before {
+      content: 'Chapter ' counter(item,decimal) ': ';
+      counter-increment:item;
+    }
+    ol.parts {
+      counter-reset:part;
+      list-style-type: none;
+      > li:before {
+        content: 'Part ' counter(part,decimal) ': ';
+        counter-increment:part;
+      }
+    }
+  }
 }

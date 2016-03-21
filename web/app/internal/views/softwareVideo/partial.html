@@ -17,10 +17,16 @@
     </div>
     <div class="clearfix clear-fix"></div>
   </div>
-  <div class="features">
-    <ol>
-      <li ng-repeat="chapter in Chapters">
-        Chapter {{chapter.Name}}
+  <div class="contents">
+    <ol class="chapters">
+      <li ng-repeat="part in Parts|filter:{Part:0}" class="chapter">
+        {{part.Title}}
+        <ol class="parts">
+          <li ng-repeat="subpart in Parts|filter:{Chapter:part.Chapter}" ng-if="subpart.Part != 0" class="part">
+            <a href="http://www.builders-software.com/estvideos/Chapter{{subpart.Chapter}}/{{subpart.Code}}/{{subpart.Code}}_media/{{subpart.Code}}.wmv">{{subpart.Title}}</a>
+
+          </li>
+        </ol>
       </li>
     </ol>
   </div>
