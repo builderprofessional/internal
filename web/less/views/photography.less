@@ -1,0 +1,185 @@
+.photography-page {
+  div.consultAction {
+    a {
+      font-size:1.2em;
+      color:white;
+    }
+    background-color:@bp-grey !important;
+    border-color:@bp-blue !important;
+  }
+  .site-title div.consultAction a {
+    font-size:.75em;
+    position:relative;
+    top:-5px;
+  }
+  .site-title-container {
+    background-image: url("/images/marketing/photography_header.png");
+    background-size:cover;
+    padding:0px;
+    height:200px;
+    h1 {
+      width:100%;
+      height:100%;
+      background-color: fade(@bp-grey,80%);
+      padding-top:45px;
+      margin:0px;
+      font-weight:normal;
+      small {
+        font-size:.8em;
+        color:white;
+      }
+      .call-to-action {
+        font-size:1em;
+      }
+    }
+  }
+  .call-to-action {
+    color:white;
+    margin-top:.5em;
+    font-size:2em;
+    border-radius:.5em;
+    &.btn.btn-default {
+      background-color: @bp-grey !important;
+    }
+  }
+  .final-call {
+    padding:1em;
+  }
+  .features,.final-call {
+    .container;
+    text-align:center;
+    a {
+      display:inline-block;
+    }
+    h1,h2,h3 {
+      text-align:center;
+      color:@bp-grey;
+    }
+    p,ul {
+      text-align:left;
+      font-size:1.75em;
+      font-weight:bolder;
+    }
+    p {
+      color:@bp-blue;
+    }
+    ul {
+      color:@bp-blue;
+    }
+  .feature-list {
+    .make-sm-column(6);
+    padding-left:1em;
+    padding-right:1em;
+    text-align:left;
+    li {
+      text-transform: uppercase;
+      color:@bp-blue;
+      font-size:1em;
+      font-weight:bolder;
+      p {
+        color:@bp-grey;
+        font-size:.75em;
+        text-transform: none;
+        font-weight:normal;
+        line-height:1em;
+      }
+    }
+  }
+  }
+  div.featuredPhotographyScreens {
+    margin-top: 5px;
+    background-color: @bp-grey;
+    text-align: center;
+    font-family: Grotesque;
+    padding-bottom: 20px;
+
+    h3 {
+      color: white;
+      text-transform: uppercase;
+    }
+
+    div.featuredSite {
+      .make-xs-column(12);
+      .make-md-column(4);
+
+      margin-top: 20px;
+
+      img {
+        border: none;
+        height:231px;
+      }
+    }
+  }
+}
+.modal.lightbox-fade .modal-dialog {
+  img {
+    max-width:100%;
+    width:800px;
+    max-height:80%;
+  }
+  width:80%;
+  .modal-content {
+    background:rgba(255,255,255,.85);
+    * {
+      background:rgba(255,255,255,.85);
+    }
+  }
+  .modal-header {
+    background-color:white;
+    .border-top-radius(5px);
+    .close {
+      margin-top: -.5em;
+    }
+  }
+  .lightbox-container {
+    width:100%;
+    text-align:center;
+  }
+}
+.modal-backdrop.lightbox-fade-bg {
+  background-color:rgba(0,0,0,.7);
+}
+
+a.btn {
+  margin-left:auto;
+  margin-right:auto;
+  &.btn-default {
+    background-color:@color-secondary;
+  }
+}
+.photography-video-page {
+  text-align:center;
+  .call-to-action {
+
+    color:white;
+    margin-top:.25em;
+    font-size:1em;
+    border-radius:.5em;
+  }
+  .features {
+    .container;
+  }
+  .contents {
+    .container;
+    text-align:left;
+    width:580px !important;
+    max-width:100% !important;
+    margin: 1em auto;
+  }
+  ol.chapters {
+    counter-reset: item;
+    list-style-type: none;
+    > li:before {
+      content: 'Chapter ' counter(item,decimal) ': ';
+      counter-increment:item;
+    }
+    ol.parts {
+      counter-reset:part;
+      list-style-type: none;
+      > li:before {
+        content: 'Part ' counter(part,decimal) ': ';
+        counter-increment:part;
+      }
+    }
+  }
+}
