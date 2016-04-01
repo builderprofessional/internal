@@ -14,7 +14,7 @@
       controller: ['$scope',
         function ($scope)
         {
-          $scope.viewContactUs = $scope.viewContactUs || 'Get Started with a Free Consultation';
+          $scope.viewContactUs = ($scope.viewContactUs && $scope.viewContactUs.length > 0) ? $scope.viewContactUs : 'Get Started with a Free Consultation';
           $scope.ContactUs = {};
           var qRules = engValidation.getRuleset('contactus');
           $q.all([qRules]).then(function ()
