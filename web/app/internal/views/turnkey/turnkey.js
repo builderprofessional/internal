@@ -4,8 +4,8 @@
 		{
 			state.add({view: 'engViewTurnkey', title: "Turn-Key Websites", url: '/turnkey', role: 'ROLE_ALL', menus: {'main': 1}});
 		}]);
-		internalApp.directive("engViewTurnkey",turnkey);
-		function turnkey()
+		internalApp.directive("engViewTurnkey",["$modal",turnkey]);
+		function turnkey($modal)
 		{
 			return {
 				restrict: "A",
@@ -15,6 +15,15 @@
 					function($scope)
 					{
 						angular.noop();
+						$scope.signup = function()
+						{
+							$scope.signUpModal = $modal(
+									{
+										title:'Begin Signup for Builder Professional Turn-key Site',
+										contentTemplate: 'sign-up-modal.html',
+										scope:$scope
+									});
+						};
 					}
 				]
 			};

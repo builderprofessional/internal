@@ -6,26 +6,7 @@
       </a>
     </div>
     <h1>
-      Your Choice: {{getPlan('Name')}} (<span eng-currency amount="getPlan('OneTimeAmount')"></span><span ng-if="getPlan('RecurringAmount') != '0'"> Now, <span eng-currency amount="getPlan('RecurringAmount')"></span> / Month</span>)
-    </h1>
-  </div>
-</div>
-<div ng-if="selectedProductId && phase.localeCompare('CHOOSE') == 1 && (selectedProductId == -1 || (phase.localeCompare('COLLECT') == 1 && SignUp.EXTRA_LICENSE > 0 ) ) && loaded">
-  <div class="phase" ng-class="no-product">
-    <div class="pull-right expander">
-      <eng-field ng-if="phase=='COLLECT' && selectedProductId == -1" type="text" placeholder="# of Licenses" validator="validator" ng-model="SignUp.EXTRA_LICENSE" label="Additional Licenses" ></eng-field>
-      <span ng-if="phase != 'COLLECT'">
-        <a ng-click="setPhase('COLLECT')" ng-show="canChange()">
-          {{SignUp.EXTRA_LICENSE}} Licenses
-        </a>
-        <span ng-hide="canChange()">
-          {{SignUp.EXTRA_LICENSE}} Licenses
-        </span>
-      </span>
-    </div>
-    <h1>
-      {{ExtraProduct.Name}}
-      (<span eng-currency amount="ExtraProduct.OneTimeAmount"></span>/each)
+      Your Choice: {{getPlan('Name')}} (<span eng-currency amount="getPlan('OneTimeAmount')"></span><span ng-if="getPlan('RecurringAmount') != '0'"> Setup, <span eng-currency amount="getPlan('RecurringAmount')"></span> / Month</span>)
     </h1>
   </div>
 </div>
@@ -45,7 +26,7 @@
   <h1 class="index_main_quote everything">Everything we do comes down to this:
     <span class="index_main_quote_highlight">We help builders.</span></h1>
   <h1 class="index_continue">Continue with purchase</h1>
-  <div class="plan-info info-block marketing-block" ng-repeat="plan in Products" ng-class="plan.model.Code">
+  <div class="plan-info info-block marketing-block" ng-repeat="plan in Products" ng-class="plan.model.Code + (Products.length == 1)? ' one-product':''">
     <div class="header">
       <h1>
         <span>{{plan.model.Name}}</span>
@@ -72,9 +53,6 @@
     </div>
   </div>
   <div class="clearfix"></div>
-  <div class="container user-licenses">
-    <a ng-click="noProduct()">I already have the Estimator, I just need additional user licenses</a>
-  </div>
 </div>
 <eng-alerts alert-prefix="payment"></eng-alerts>
 <div ng-if="selectedProductId && phase == 'COLLECT' && loaded" style="width:100%;">
@@ -95,9 +73,6 @@
         </fieldset>
         <fieldset class="creditcard">
           <legend>Payment Info</legend>
-          <div ng-if="selectedProductId && phase == 'COLLECT' && selectedProductId != -1 && loaded" class="extra-holder">
-            <eng-field type="text" placeholder="# of Licenses" validator="validator" ng-model="SignUp.EXTRA_LICENSE" label="{{ExtraProduct.Name}} ({{ExtraProduct.OneTimeAmount|engCurrency:2}}/each)" ></eng-field>
-          </div>
           <eng-field type="text" placeholder="Enter a Valid Credit Card Number" validator="validator" ng-model="SignUp.CreditCardNumber" label="CC #" >
           </eng-field>
 
@@ -214,14 +189,6 @@
           <th>{{getPlan('Name')}}</th>
           <td><span eng-currency amount="getPlan('OneTimeAmount')"></span></td>
         </tr>
-        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
-          <th>{{ExtraProduct.Name}} ({{SignUp.ProductCodes.EXTRA_LICENSE}})</th>
-          <td><span eng-currency amount="getExtraAmount()"></span></td>
-        </tr>
-        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
-          <th>Sub Total</th>
-          <td><span eng-currency amount="Totals.Subtotal"></span></td>
-        </tr>
         <tr>
         <tr ng-if="Totals.TaxRate > 0">
           <th>Tax (<span>{{Totals.TaxPercentage}}%</span>)</th>
@@ -298,22 +265,12 @@
           <td>1</td>
           <td class="totals"><span eng-currency amount="getPlan('OneTimeAmount')"></span></td>
         </tr>
-        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
-          <td>{{ExtraProduct.Name}}</td>
-          <td><span eng-currency amount="ExtraProduct.OneTimeAmount"></span></td>
-          <td>{{SignUp.ProductCodes.EXTRA_LICENSE}}</td>
-          <td class="totals"><span eng-currency amount="getExtraAmount()"></span></td>
-        </tr>
       </tbody>
     </table>
   </div>
   <div class="pull-right col-lg-4 totals-block">
     <table class="totals">
       <tbody>
-        <tr ng-if="SignUp.ProductCodes.EXTRA_LICENSE">
-          <th>Sub Total</th>
-          <td><span eng-currency amount="PurchaseResult.Amount"></span></td>
-        </tr>
         <tr ng-if="Totals.Tax">
           <th>Tax</th>
           <td><span eng-currency amount="PurchaseResult.TaxAmount"></span></td>

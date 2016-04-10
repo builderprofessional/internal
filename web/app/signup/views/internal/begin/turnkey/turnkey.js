@@ -7,15 +7,15 @@
   }]);
   signupApp.config(['engStateProvider', function (state)
   {
-    state.add({view: 'engViewBegin', title: "Begin", url: '/begin', role: 'ROLE_ALL', menus: {'main': 1}});
+    state.add({view: 'engViewTurnkey', title: "Turnkey", url: '/turnkey', role: 'ROLE_ALL', menus: {'main': 1}});
   }]);
-  signupApp.directive("engViewBegin",['$aside','$http', '$rootScope', 'PropelSOAService', '$sce','engValidation','engAlert','$q', begin]);
-  function begin($aside,$http,$rootScope,PropelSOAService,$sce,engValidation,engAlert,$q)
+  signupApp.directive("engViewTurnkey",['$aside','$http', '$rootScope', 'PropelSOAService', '$sce','engValidation','engAlert','$q', turnkey]);
+  function turnkey($aside,$http,$rootScope,PropelSOAService,$sce,engValidation,engAlert,$q)
   {
     return {
       restrict: "A",
       scope: {},
-      templateUrl: "/app/signup/views/internal/begin/main/partial.html",
+      templateUrl: "/app/signup/views/internal/begin/turnkey/partial.html",
       controller: ['$scope',
         function ($scope)
         {
@@ -60,28 +60,26 @@
             qToken = qToken.promise;
             if ( token && token.length > 1 )
             {
-              $scope.selectedProductId = token[token.length-1];
+              qToken = $http.get(env_url + '/public/internal/signup/findByToken/' + token[token.length - 1]).then(function (result) {
+                $scope.SignUp = result.data.Data;
                 $scope.SignUp.Country='US';
+              },function(){
+                //document.location.href='about:blank';
+              });
+            }
+            else
+            {
+              //document.location.href='about:blank';
             }
             // Get the products to choose from
             var pQuery = PropelSOAService.getQuery('Engine', 'Billing', 'Product');
             pQuery.isPublic = true;
+            pQuery.addEqualFilter('TypeCode',"TURNKEY");
             var qRes = pQuery.runQuery($scope, 'productresult');
             var signupRules = engValidation.getRuleset('completeSignup');
-            $scope.SignUp.EXTRA_LICENSE=0;
-            if ( $scope.selectedProductId == -1 )
-            {
-              $scope.SignUp.EXTRA_LICENSE=1;
-            }
 
             $q.all([qRes, qToken, signupRules]).then(function () {
               $scope.Products = $scope.productresult.collection;
-              angular.forEach($scope.Products,function(product){
-                if ( product.model.Code == 'EXTRA_LICENSE' )
-                {
-                  $scope.ExtraProduct = product.model;
-                }
-              });
               $scope.loaded=true;
               $scope.Products.sort(function (a, b) {
                 return ((a.model.Position < b.model.Position) ? -1 : (a.model.Position > b.model.Position) ? 1 : 0 );
@@ -90,16 +88,6 @@
                 if ($scope.SignUp.ProductId) {
                   $scope.selectedProductId = $scope.SignUp.ProductId;
                   $scope.change($scope.getPlan());
-                }
-                else if ($scope.selectedProductId)
-                {
-                  $scope.SignUp.ProductId = $scope.selectedProductId;
-                  angular.forEach($scope.Products,function(product){
-                    if (product.model.ProductId == $scope.SignUp.ProductId )
-                    {
-                      $scope.change(product);
-                    }
-                  });
                 }
                 else
                 {
@@ -118,17 +106,12 @@
             });
           };
           $scope.reloadData();
-          $scope.noProduct = function() {
-            $scope.selectedProductId = -1;
-            $scope.SignUp.EXTRA_LICENSE=1;
-            $scope.setPhase('COLLECT');
-          };
 
 
           // Get the chosen plan or a property thereof
           $scope.getPlan = function(field)
           {
-            if ( ! $scope.selectedProductId || $scope.selectedProductId == "-1" )
+            if ( ! $scope.selectedProductId )
             {
               return false;
             }
@@ -163,7 +146,6 @@
             }
             else
             {
-              $scope.SignUp.EXTRA_LICENSE=0;
               $scope.selectedProductId = plan.model.ProductId;
               angular.extend($scope.SignUp,plan.model);
               $scope.setPhase('COLLECT');
@@ -172,15 +154,7 @@
           $scope.setAmount = function()
           {
             $scope.SignUp.Amount = 0;
-            if ( $scope.selectedProductId != -1)
-            {
-              $scope.SignUp.Amount +=parseInt($scope.getPlan('Amount'),10);
-            }
-            $scope.SignUp.Amount += parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
-          };
-          $scope.getExtraAmount = function()
-          {
-            return parseInt($scope.ExtraProduct.Amount,10) * parseInt($scope.SignUp.EXTRA_LICENSE,10);
+            $scope.SignUp.Amount +=parseInt($scope.getPlan('OneTimeAmount'),10);
           };
 
           $scope.env_url = env_url;
@@ -209,14 +183,6 @@
               $scope.SignUp.CVV = "";
               $scope.SignUp.ProductCodes = {};
               $scope.SignUp.Name = $scope.SignUp.FirstName + ' ' + $scope.SignUp.LastName;
-              if ( $scope.selectedProductId != -1 )
-              {
-                $scope.SignUp.ProductCodes[$scope.getPlan('Code')] = 1;
-              }
-              if ( $scope.SignUp.EXTRA_LICENSE )
-              {
-                $scope.SignUp.ProductCodes.EXTRA_LICENSE = $scope.SignUp.EXTRA_LICENSE;
-              }
               qTax = $http.get(env_url + '/public/billing/tax/adhoc?data='+encodeURIComponent(JSON.stringify($scope.SignUp)) ).success(function (result) {
                 $scope.Totals = result.Data;
                 $scope.vault=true;
@@ -231,11 +197,26 @@
           {
             engAlert.clearContextSwitch();
             angular.element('body').addClass('waiting-for-angular');
-            confirmed = $http.post(env_url + '/public/internal/purchase',$scope.SignUp).then(function (result) {
+            confirmed = $http.post(env_url + '/public/internal/signup',$scope.SignUp).then(function (result) {
               angular.element('body').removeClass('waiting-for-angular');
-              $scope.PurchaseResult = result.data.Data;
+              $scope.ClientId = result.data.Data.ClientId;
+              $scope.UserId = result.data.Data.UserId;
               $scope.ReceiptNumber = result.data.Data.ReceiptNumber;
-              $scope.setPhase('RECEIPT');
+              var query = PropelSOAService.getQuery(
+                  'Engine', 'Billing', 'Client'
+              );
+
+              query.addInnerJoin('ClientProduct->Product');
+              query.addInnerJoin('Company->Address');
+
+
+              var qClient = query.runQueryOne($scope, 'BillingClient');
+
+              $q.all([qClient]).then(function ()
+              {
+                $scope.client = $scope.BillingClient;
+                $scope.setPhase('RECEIPT');
+              });
             },function(result){
               angular.element('body').removeClass('waiting-for-angular');
               $scope.setPhase('COLLECT');
