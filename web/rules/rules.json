@@ -62,7 +62,6 @@
     "Name": ["required"],
     "Email": ["required", "email"],
     "Password": {
-      "0": "required",
       "equals": {
         "otherField": "PasswordConfirm",
         "errorMessage": "Passwords must match."
@@ -95,6 +94,7 @@
     "ZipCode": ["required"],
     "Country": {"0": "required", "regex": {"0": "/[A-Z]{2,2}/", "errorMessage": "Must use a valid 2 character country code"}},
     "SignupId": ["required", "integer"],
+    "ProductId": ["required", "integer"],
     "CreditCardNumber": {"0":"required","minMax":{"0":16,"1":16,"errorMessage":"Must be a 16 digit credit card number"}},
     "CVV": ["required"],
     "ExpirationYear": {"0":"required","minMax":{"0":4,"1":4,"errorMessage":"Must be a 4 digit year (e.g. 2015)"}},
