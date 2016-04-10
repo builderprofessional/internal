@@ -35,13 +35,19 @@
       }
     }
   }
-    div.consultAction {
+  div.consultAction,a.consultAction {
     a {
       font-size:1.2em;
       color:white;
     }
     background-color:@bp-grey !important;
     border-color:@bp-blue !important;
+  }
+  a.consultAction.consultAction.consultAction {
+    &, &:link, &:hover, &:active, &:visited {
+      color: white;
+      font-size: 1.2em;
+    }
   }
   .site-title div.consultAction a {
     font-size:.75em;
