@@ -45,7 +45,6 @@
     "Name": ["required"],
     "Email": ["required", "email"],
     "Password": {
-      "0": "required",
       "equals": {
         "otherField": "PasswordConfirm",
         "errorMessage": "Passwords must match."

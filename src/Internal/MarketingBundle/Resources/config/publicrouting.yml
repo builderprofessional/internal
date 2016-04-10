@@ -5,3 +5,16 @@ contact:
 estimator_purchase:
   path: /purchase
   defaults: { _controller: InternalMarketingBundle:EstimatorPurchase:post }
+
+turnkey_signup_post:
+  path:  /turnKeySignup
+  defaults: { _controller: InternalMarketingBundle:TurnKeySignup:post }
+turnkey_signup_json:
+  path:  /turnKeySignup/json
+  defaults: { _controller: InternalMarketingBundle:TurnKeySignup:signup }
+turnkey_signup_findByToken_get:
+  path:  /turnKeySignup/findByToken/{token}
+  defaults: { _controller: InternalMarketingBundle:TurnKeySignup:findByToken }
+turnkey_signup_complete:
+  path:  /turnKeySignup/complete
+  defaults: { _controller: InternalMarketingBundle:TurnKeySignup:complete }
