@@ -60,7 +60,7 @@
             qToken = qToken.promise;
             if ( token && token.length > 1 )
             {
-              qToken = $http.get(env_url + '/public/internal/signup/findByToken/' + token[token.length - 1]).then(function (result) {
+              qToken = $http.get(env_url + '/public/internal/turnKeySignup/findByToken/' + token[token.length - 1]).then(function (result) {
                 $scope.SignUp = result.data.Data;
                 $scope.SignUp.Country='US';
               },function(){
