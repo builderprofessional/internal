@@ -45,7 +45,6 @@
     "Name": ["required"],
     "Email": ["required", "email"],
     "Password": {
-      "0": "required",
       "equals": {
         "otherField": "PasswordConfirm",
         "errorMessage": "Passwords must match."
@@ -77,7 +76,8 @@
     "State": ["required"],
     "ZipCode": ["required"],
     "Country": {"0": "required", "regex": {"0": "/[A-Z]{2,2}/", "errorMessage": "Must use a valid 2 character country code"}},
-    "ESTIMATOR_EXTRA_LICENSE": {"integer":{"errorMessage": "You must select a whole number of extra user licenses"}},
+    "SignupId": ["required", "integer"],
+    "ProductId": ["required", "integer"],
     "CreditCardNumber": {"0":"required","minMax":{"0":16,"1":16,"errorMessage":"Must be a 16 digit credit card number"}},
     "CVV": ["required"],
     "ExpirationYear": {"0":"required","minMax":{"0":4,"1":4,"errorMessage":"Must be a 4 digit year (e.g. 2015)"}},

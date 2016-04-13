@@ -39,7 +39,7 @@
           {
             $scope.validator.isValid().then(function(result){
               // Clear out the Braintree model to ensure that we are keeping the values for as short a time as possible
-              $scope.ContactUs.Question = $scope.addSubject.toString() + "  " + $scope.ContactUs.Question;
+              $scope.ContactUs.Question = ((typeof $scope.addSubject != 'undefined' && $scope.addSubject) ? $scope.addSubject.toString() : '') + "  " + $scope.ContactUs.Question;
               $http.post(env_url+'/public/internal/contactUs'+env_postfix,$scope.ContactUs).then(function(){
                 engAlert.success("Thanks for contacting us.  We will get back with you as soon as possible.", 'contactSuccess');
                 $scope.ContactUs = {};
