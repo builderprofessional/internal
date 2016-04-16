@@ -31,7 +31,7 @@ security:
       pattern: ^/public.+$
       security: false
     signup:
-      pattern: ^/(signup|index)$
+      pattern: ^/(signup|index|purchase)$
       security: false
     auth_area:
       pattern: ^/auth/login

@@ -176,7 +176,7 @@
     <fieldset>
       <legend>Agreement</legend>
       <label>
-        <input type="checkbox" name="AgreedToTerms" id="AgreedToTerms" ng-model="SignUp.AgreedToTerms">
+        <input type="checkbox" name="TermsAgreement" id="TermsAgreement" ng-model="SignUp.TermsAgreement">
         I have the authority to enter into agreements on behalf of {{SignUp.CompanyName || 'My Company'}} and I do so agree to the <a style="cursor:pointer;text-decoration:underline;color:blue;" id="terms" ng-click="showTerms=!showTerms">terms of this agreement.</a>
       </label>
       <ul id="termsblock" ng-if="showTerms">
@@ -225,7 +225,7 @@
             To be charged now:
           </td>
         </tr>
-        <tr ng-if="selectedProductId != -1">
+        <tr ng-if="Totals.TaxRate > 0">
           <th>{{getPlan('Name')}}</th>
           <td><span eng-currency amount="getPlan('OneTimeAmount')"></span></td>
         </tr>
@@ -277,11 +277,11 @@
       <tbody>
         <td class="date">{{today|date:'shortDate'}}</td>
         <td class="bill-to">
-          {{PurchaseResult.CompanyName || 'Your Company'}}<br/>
-          {{SignUp.Address || 'No Address Provided'}}<br/>
-          {{SignUp.City || 'No City'}},
-          {{PurchaseResult.State || 'No State'}}
-          {{PurchaseResult.ZipCode || 'No Zipcode'}}<br/>
+          {{client.relations.Company.model.Name || Company.model.Name || 'Your Company'}}<br/>
+          {{client.relations.Company.relations.Address.model.Address || 'No Address Provided'}}<br/>
+          {{client.relations.Company.relations.Address.model.City || 'No City'}},
+          {{client.relations.Company.relations.Address.model.State || 'No State'}}
+          {{client.relations.Company.relations.Address.model.ZipCode || 'No Zipcode'}}<br/>
         </td>
         <td class="empty"></td>
         <td class="Total"><span eng-currency amount="Totals.Total"></span></td>
@@ -313,15 +313,15 @@
       <tbody>
         <tr ng-if="Totals.Tax">
           <th>Tax</th>
-          <td><span eng-currency amount="PurchaseResult.TaxAmount"></span></td>
+          <td><span eng-currency amount="Totals.Tax"></span></td>
         </tr>
         <tr>
           <th>Total</th>
-          <td><span eng-currency amount="PurchaseResult.TotalAmount"></span></td>
+          <td><span eng-currency amount="Totals.Total"></span></td>
         </tr>
         <tr>
           <th>Paid</th>
-          <td><span eng-currency amount="PurchaseResult.TotalAmount"></span></td>
+          <td><span eng-currency amount="Totals.Total"></span></td>
         </tr>
         <tr>
           <td colspan="2" class="msg">

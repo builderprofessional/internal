@@ -72,6 +72,10 @@
                 $scope.SignUp = result.data.Data;
                 $scope.SignUp.ProductId = 5;
                 $scope.SignUp.Country='US';
+                if ($scope.SignUp.Name) {
+                  $scope.SignUp.FirstName = $scope.SignUp.Name.split(' ')[0];
+                  $scope.SignUp.LastName = $scope.SignUp.Name.split(' ').slice(1).join(' ');
+                }
               });
             }
             // Get the products to choose from
@@ -79,7 +83,7 @@
             pQuery.isPublic = true;
             pQuery.addEqualFilter('TypeCode',"TURNKEY");
             var qRes = pQuery.runQuery($scope, 'productresult');
-            var signupRules = engValidation.getRuleset('completeSignup');
+            var signupRules = engValidation.getRuleset('completeSignupFrontEnd');
             var confirmRules = engValidation.getRuleset('confirmSignup');
 
             $q.all([qRes, qToken, signupRules,confirmRules]).then(function () {
@@ -101,11 +105,7 @@
               else {
                 $scope.selectedProductId = false;
               }
-              if ($scope.SignUp.Name) {
-                $scope.SignUp.FirstName = $scope.SignUp.Name.split(' ')[0];
-                $scope.SignUp.LastName = $scope.SignUp.Name.split(' ').slice(1).join(' ');
-              }
-              $scope.validator = engValidation.getValidator('completeSignup');
+              $scope.validator = engValidation.getValidator('completeSignupFrontEnd');
               $scope.validator.watch($scope, $scope.SignUp);
               $scope.cvalidator = engValidation.getValidator('confirmSignup');
               $scope.cvalidator.watch($scope, $scope.SignUp);
@@ -206,7 +206,7 @@
             $scope.cvalidator.isValid().then(function(result){
               engAlert.clear("error");
               angular.element('body').addClass('waiting-for-angular');
-              confirmed = $http.post(env_url + '/public/internal/signup', $scope.SignUp).then(function (result) {
+              confirmed = $http.post(env_url + '/public/internal/turnKeySignup/complete', $scope.SignUp).then(function (result) {
                 angular.element('body').removeClass('waiting-for-angular');
                 $scope.ClientId = result.data.Data.ClientId;
                 $scope.UserId = result.data.Data.UserId;
@@ -227,12 +227,11 @@
                 });
               }, function (result) {
                 angular.element('body').removeClass('waiting-for-angular');
-                //$scope.setPhase('COLLECT');
-                $scope.setPhase('RECEIPT');
+                $scope.setPhase('COLLECT');
               });
             },function(result){
               engAlert.alert('error','You must agree to the terms and conditions before continuing.', 'paymentInfo');
-              $('html, body').animate({scrollTop: $("#AgreedToTerms").offset().top-180},500);
+              $('html, body').animate({scrollTop: $("#TermsAgreement").offset().top-180},500);
             });
           };
 
