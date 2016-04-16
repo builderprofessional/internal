@@ -1,12 +1,12 @@
 <div ng-if="selectedProductId && phase.localeCompare('CHOOSE') == 1 && selectedProductId != -1 && loaded">
   <div class="phase" ng-class="getPlan('Name')">
     <div class="pull-right expander">
-      <a ng-click="setPhase('CHOOSE')" ng-show="canChange()">
+      <a ng-click="setPhase('CHOOSE')" ng-show="canChange() && Products.length > 1">
         Change
       </a>
     </div>
     <h1>
-      Your Choice: {{getPlan('Name')}} (<span eng-currency amount="getPlan('OneTimeAmount')"></span><span ng-if="getPlan('RecurringAmount') != '0'"> Setup, <span eng-currency amount="getPlan('RecurringAmount')"></span> / Month</span>)
+      Purchasing: {{getPlan('Name')}} (<span eng-currency amount="getPlan('OneTimeAmount')"></span><span ng-if="getPlan('RecurringAmount') != '0'"> Setup, <span eng-currency amount="getPlan('RecurringAmount')"></span> / Month</span>)
     </h1>
   </div>
 </div>
@@ -170,12 +170,52 @@
   </div>
   <div class="info-block marketing-block confirm-block" ng-class="{noproduct:selectedProductId == -1}">
     <h1>Confirm Purchase</h1>
-    <div class="pricing" ng-show="getPLan('ClassKey') == 'recurring'">
-      You will be charged: <span eng-currency amount="Totals.Total"></span><span> each month until you cancel.
-      You can cancel after the first year.</span>
-    </div>
     <div>
       <eng-marketing content="getPlan('Code')+'_signup'"></eng-marketing>
+    </div>
+    <fieldset>
+      <legend>Agreement</legend>
+      <label>
+        <input type="checkbox" name="AgreedToTerms" id="AgreedToTerms" ng-model="SignUp.AgreedToTerms">
+        I have the authority to enter into agreements on behalf of {{SignUp.CompanyName || 'My Company'}} and I do so agree to the <a style="cursor:pointer;text-decoration:underline;color:blue;" id="terms" ng-click="showTerms=!showTerms">terms of this agreement.</a>
+      </label>
+      <ul id="termsblock" ng-if="showTerms">
+        <li> Services will be provided by Builder Professional Technology, LLC in the form of web site development, hosting, and maintenance, including unlimited marketing pages and community locator and email hosting and service (if requested).</li>
+        <li> Payments shall be made by the client to Builder Professional Technology, LLC, Duncanville, TX 75137.</li>
+        <li> Client agrees to pay Builder Professional the amounts indicated in this proposal including any
+          recurring fees. Client is providing a credit card that will be charged automatically every month for said
+          recurring fees.</li>
+        <li> In the case of a transaction being rejected, Client understands that Builder Professional may at its
+          discretion attempt to process the charge again within 30 days, and agree to an additional $20.00 charge for
+          each attempt rejected which will be initiated as a separate transaction from the authorized recurring
+          payment. Client shall pay all costs of collection, including without limitation, reasonable attorney fees and
+          agrees that in the case of client's failure to pay for services when due, Builder Professional may at its
+          discretion treat such failure as a material breach of Contract and may cancel the contract and/or seek legal
+          remedies.</li>
+        <li> Client certifies that client is an authorized user of the credit card provided and that client and its officers
+          will not dispute these scheduled transactions with Client's bank or credit card company; so long as the
+          transactions correspond to the terms indicated in this authorization.</li>
+        <li> Client further authorizes Builder Professional to charge this credit card or any updated credit card a
+          cancellation fee of two (2) times the monthly amount if the client cancels service before the end of the first
+          12 months of service on the Turn-Key plan.</li>
+        <li> Client understands that if client is not an existing Builder Professional Web Hosting Client and service is canceled before the end of the first 12 months, all website design will remain
+          the intellectual property of Builder Professional and will not be released.  After the first 12 months if service is cancelled,
+          the full website will be provided to the client as a static set of web pages suitable for display on any hosting provider but
+          without the content management and back-end form processing which is proprietary to Builder Professional.
+        </li>
+        <li> This agreement may be terminated after twelve (12) months by either party upon thirty (30) days prior
+          written notice to the other party. An email notice by one party will suffice.</li>
+        <li> This is the entire agreement of the parties and there are no other promises or conditions in any other
+          agreement concerning the subject matter of this contract. This contract supersedes any prior written or oral
+          agreement between the parties.</li>
+      </ul>
+      <label>
+        <input type="checkbox" name="MailingList" id="MailingList" ng-model="SignUp.MailingList" checked="checked"> Keep me informed about Builder Professional services
+      </label>
+    </fieldset>
+    <div class="pricing" ng-show="getPlan('ClassKey') == 'recurring'" style="margin-bottom:12em;">
+      You will be charged: <span eng-currency amount="getPlan('RecurringAmount')"></span> + applicable tax <span> each month until you cancel.
+      You can cancel after the first year.</span>
     </div>
     <div class="totals-block">
       <table class="totals">
@@ -259,8 +299,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-if="selectedProductId != -1">
-          <td>{{getPlan('Name')}}</td>
+        <tr>
+          <td>{{getPlan('Name')}} Setup</td>
           <td><span eng-currency amount="getPlan('OneTimeAmount')"></span></td>
           <td>1</td>
           <td class="totals"><span eng-currency amount="getPlan('OneTimeAmount')"></span></td>
@@ -291,16 +331,11 @@
       </tbody>
     </table>
   </div>
-  <div class="col-lg-12" ng-if="selectedProductId != -1">
+  <div class="col-lg-12">
     <h1 class="index_main_quote">
-      <a href="https://web29.streamhoster.com/builderprofessional/estdownloads/BSEEstimator.exe">Click here to download the software</a>
+      A Builder Professional Representative will be in touch with you shortly to schedule an initial consultation.
     </h1>
-    <p>Once you have downloaded the software, call 844-632-8453 and one of our installation professionals will guide you through the setup process and provide the unlock code necessary to run the software.</p>
-  </div>
-  <div class="col-lg-12" ng-if="selectedProductId == -1">
-    <h1 class="index_main_quote">
-      <p>Call 844-632-8453 to receive your additional unlock codes.</p>
-    </h1>
+    <p class="text-center">You may also call 844-632-8453 to speak to a representative immediately during business hours.</p>
   </div>
   <div class="col-lg-12">
     <h1 class="index_main_quote">

@@ -38,6 +38,13 @@
             {
               $scope.selectedProductId=false;
             }
+            if ( $scope.phase == 'CONFIRM')
+            {
+              if ( typeof $scope.SignUp.MailingList == 'undefined' )
+              {
+                $scope.SignUp.MailingList=true;
+              }
+            }
           };
           $scope.SignUp = {};
 
@@ -51,6 +58,7 @@
             $scope.SignUp.CreditCardNumber = "";
             $scope.SignUp.ExpirationMonth = "";
             $scope.SignUp.ExpirationYear = "";
+            $scope.SignUp.ProductId = 5;
             $scope.SignUp.CVV = "";
             $scope.SignUp.Country = "US";
             $scope.today = new Date();
@@ -62,14 +70,9 @@
             {
               qToken = $http.get(env_url + '/public/internal/turnKeySignup/findByToken/' + token[token.length - 1]).then(function (result) {
                 $scope.SignUp = result.data.Data;
+                $scope.SignUp.ProductId = 5;
                 $scope.SignUp.Country='US';
-              },function(){
-                //document.location.href='about:blank';
               });
-            }
-            else
-            {
-              //document.location.href='about:blank';
             }
             // Get the products to choose from
             var pQuery = PropelSOAService.getQuery('Engine', 'Billing', 'Product');
@@ -77,8 +80,9 @@
             pQuery.addEqualFilter('TypeCode',"TURNKEY");
             var qRes = pQuery.runQuery($scope, 'productresult');
             var signupRules = engValidation.getRuleset('completeSignup');
+            var confirmRules = engValidation.getRuleset('confirmSignup');
 
-            $q.all([qRes, qToken, signupRules]).then(function () {
+            $q.all([qRes, qToken, signupRules,confirmRules]).then(function () {
               $scope.Products = $scope.productresult.collection;
               $scope.loaded=true;
               $scope.Products.sort(function (a, b) {
@@ -103,6 +107,8 @@
               }
               $scope.validator = engValidation.getValidator('completeSignup');
               $scope.validator.watch($scope, $scope.SignUp);
+              $scope.cvalidator = engValidation.getValidator('confirmSignup');
+              $scope.cvalidator.watch($scope, $scope.SignUp);
             });
           };
           $scope.reloadData();
@@ -162,8 +168,10 @@
           //  Credit Card Processing process.
           $scope.cancelCC = function(){
             engAlert.clearContextSwitch();
-            $scope.selectedProductId=false;
-            $scope.reloadData();
+            document.location.href='/';
+           // $scope.selectedProductId=5;
+
+            //$scope.reloadData();
           };
           $scope.saveCC = function ()
           {
@@ -193,33 +201,38 @@
               engAlert.alert('payment_error','Please ensure all information is correct before saving.', 'paymentInfo');
             });
           };
-          $scope.confirm = function ()
-          {
+          $scope.confirm = function () {
             engAlert.clearContextSwitch();
-            angular.element('body').addClass('waiting-for-angular');
-            confirmed = $http.post(env_url + '/public/internal/signup',$scope.SignUp).then(function (result) {
-              angular.element('body').removeClass('waiting-for-angular');
-              $scope.ClientId = result.data.Data.ClientId;
-              $scope.UserId = result.data.Data.UserId;
-              $scope.ReceiptNumber = result.data.Data.ReceiptNumber;
-              var query = PropelSOAService.getQuery(
-                  'Engine', 'Billing', 'Client'
-              );
+            $scope.cvalidator.isValid().then(function(result){
+              engAlert.clear("error");
+              angular.element('body').addClass('waiting-for-angular');
+              confirmed = $http.post(env_url + '/public/internal/signup', $scope.SignUp).then(function (result) {
+                angular.element('body').removeClass('waiting-for-angular');
+                $scope.ClientId = result.data.Data.ClientId;
+                $scope.UserId = result.data.Data.UserId;
+                $scope.ReceiptNumber = result.data.Data.ReceiptNumber;
+                var query = PropelSOAService.getQuery(
+                    'Engine', 'Billing', 'Client'
+                );
 
-              query.addInnerJoin('ClientProduct->Product');
-              query.addInnerJoin('Company->Address');
+                query.addInnerJoin('ClientProduct->Product');
+                query.addInnerJoin('Company->Address');
 
 
-              var qClient = query.runQueryOne($scope, 'BillingClient');
+                var qClient = query.runQueryOne($scope, 'BillingClient');
 
-              $q.all([qClient]).then(function ()
-              {
-                $scope.client = $scope.BillingClient;
+                $q.all([qClient]).then(function () {
+                  $scope.client = $scope.BillingClient;
+                  $scope.setPhase('RECEIPT');
+                });
+              }, function (result) {
+                angular.element('body').removeClass('waiting-for-angular');
+                //$scope.setPhase('COLLECT');
                 $scope.setPhase('RECEIPT');
               });
             },function(result){
-              angular.element('body').removeClass('waiting-for-angular');
-              $scope.setPhase('COLLECT');
+              engAlert.alert('error','You must agree to the terms and conditions before continuing.', 'paymentInfo');
+              $('html, body').animate({scrollTop: $("#AgreedToTerms").offset().top-180},500);
             });
           };
 
