@@ -3,22 +3,7 @@
       "Login": ["required"],
       "FirstName": ["required"],
       "LastName": ["required"],
-      "Password": {
-          "0": "required",
-          "equals": {
-              "otherField": "PasswordConfirm",
-              "errorMessage": "Passwords must match."
-          },
-          "minMax": {
-              "0": 10,
-              "1": 0,
-              "errorMessage": "Minimum password length is 10 characters"
-          },
-          "regex": {
-              "0": "/(?=.*[a-z])(?=.*[0-9])(?=.*[[:punct:]])(?=.*[A-Z])/",
-              "errorMessage": "Password must contain at least one upper and one lower case letter, one number, and one punctuation mark."
-          }
-      },
+      "Password": ["password"],
       "PasswordConfirm": {
           "equals": {
               "otherField": "Password",
@@ -61,21 +46,7 @@
   "signup": {
     "Name": ["required"],
     "Email": ["required", "email"],
-    "Password": {
-      "equals": {
-        "otherField": "PasswordConfirm",
-        "errorMessage": "Passwords must match."
-      },
-      "minMax": {
-        "0": 10,
-        "1": 0,
-        "errorMessage": "Minimum password length is 10 characters"
-      },
-      "regex": {
-        "0": "/(?=.*[a-z])(?=.*[0-9])(?=.*[[:punct:]])(?=.*[A-Z])/",
-        "errorMessage": "Password must contain at least one upper and one lower case letter, one number, and one punctuation mark."
-      }
-    },
+    "Password": ["password"],
     "PasswordConfirm": {
       "equals": {
         "otherField": "Password",
@@ -93,8 +64,9 @@
     "State": ["required"],
     "ZipCode": ["required"],
     "Country": {"0": "required", "regex": {"0": "/[A-Z]{2,2}/", "errorMessage": "Must use a valid 2 character country code"}},
-    "SignupId": ["required", "integer"],
+    "SignupId": ["integer"],
     "ProductId": ["required", "integer"],
+    "TermsAgreement": ["required", "true"],
     "CreditCardNumber": {"0":"required","minMax":{"0":13,"1":17,"errorMessage":"Must be a valid digit credit card number"}},
     "CVV": ["required"],
     "ExpirationYear": {"0":"required","minMax":{"0":4,"1":4,"errorMessage":"Must be a 4 digit year (e.g. 2015)"}},
