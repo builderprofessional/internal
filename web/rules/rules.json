@@ -66,7 +66,7 @@
     "Country": {"0": "required", "regex": {"0": "/[A-Z]{2,2}/", "errorMessage": "Must use a valid 2 character country code"}},
     "SignupId": ["integer"],
     "ProductId": ["required", "integer"],
-    "TermsAgreement": ["required","boolean"],
+    "TermsAgreement": ["required","true"],
     "CreditCardNumber": {"0":"required","minMax":{"0":13,"1":17,"errorMessage":"Must be a valid digit credit card number"}},
     "CVV": ["required"],
     "ExpirationYear": {"0":"required","minMax":{"0":4,"1":4,"errorMessage":"Must be a 4 digit year (e.g. 2015)"}},
@@ -90,7 +90,7 @@
     "ExpirationMonth": {"0":"required","minMax":{"0":2,"1":2,"errorMessage":"Must be a 2 digit month (e.g. 04 for april)"}}
   },
   "confirmSignup": {
-    "TermsAgreement":{"0":"required"}
+    "TermsAgreement":["required","true"]
   },
   "getAdhocTax": {
     "Amount": ["required", "integer"],
