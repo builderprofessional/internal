@@ -2,7 +2,8 @@
 {
 	  internalApp.config(['engStateProvider', function (state)
 		{
-			state.add({view: 'engViewDashboard', title: "Home", url: '/dashboard', role: 'ROLE_ALL', menus: {'main': 1}});
+			state.add({submenu:'about', title: "About Us", role: 'ROLE_ALL', menus: {'main': 1}});
+			state.add({view: 'engViewDashboard', title: "Home", url: '/dashboard', role: 'ROLE_ALL', menus: {'about': 1}});
 			// Now add all external links
 			state.add({external:true, name: 'ViewTraining', title: "Training", url: 'https://buildertraining.net', role: 'ROLE_ALL', menus: {'main': 3}});
 		}]);

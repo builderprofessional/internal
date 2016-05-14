@@ -1,6 +1,9 @@
 <div class="contact-us-modal">
-<div class="consultAction">
+<div class="consultAction" ng-if="!inline">
   <a ng-click="contact()"> {{viewContactUs}}</a>
+</div>
+<div ng-if="inline">
+  <ng-include src="'contact-us-modal.html'"></ng-include>
 </div>
 <script type="text/ng-template" id="contact-us-modal.html">
   <eng-alerts alert-prefix="contactus"></eng-alerts>
@@ -19,7 +22,7 @@
     </eng-field>
     <fieldset class="record-actions">
       <div class="action-buttons">
-        <eng-action-button ng-click="cancel()" data-button-text="Cancel" data-button-action="cancel-aside"></eng-action-button>
+        <eng-action-button ng-if="!inline" ng-click="cancel()" data-button-text="Cancel" data-button-action="cancel-aside"></eng-action-button>
 
         <eng-action-button ng-click="save()" data-button-text="Submit Request" data-button-action="email"></eng-action-button>
       </div>

@@ -8,7 +8,8 @@
       restrict: "A",
       scope: {
         'viewContactUs':'@',
-        'addSubject':'@'
+        'addSubject':'@?',
+        'inline':'=?'
       },
       templateUrl: "/app/internal/views/contact/partial.html",
       controller: ['$scope',
@@ -44,7 +45,10 @@
                 engAlert.success("Thanks for contacting us.  We will get back with you as soon as possible.", 'contactSuccess');
                 $scope.ContactUs = {};
               });
-              $scope.contactUsModal.hide();
+              if ( !$scope.inline )
+              {
+                $scope.contactUsModal.hide();
+              }
             },function(result){
               engAlert.alert('contactus_error','Please ensure all information is correct before saving.', 'contactError');
             });
